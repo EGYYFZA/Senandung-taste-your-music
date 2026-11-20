@@ -1,13 +1,13 @@
 ﻿# Senandung
 
-Pemutar musik berbasis web dengan pencarian Audius, dukungan opsional untuk Jamendo, serta referensi chart Apple Music Indonesia. Koleksi pribadi dan playlist tersimpan di browser. Sumber audio menentukan ketersediaan setiap lagu.
+Senandung adalah pemutar musik pribadi untuk rilisan independen Indonesia. Kamu bisa memutar album dari katalog, mendengarkan cuplikan Apple Music di beranda, dan menambahkan lagu dari tautan YouTube ke playlist. Pemutaran YouTube mengikuti izin sematan pemilik video.
 
 ## Menjalankan aplikasi
 
-Gunakan Node.js 24 dan npm. Jalankan `npm ci`, buat file lokal `.env.local`, lalu isi `SENANDUNG_ACCESS_USER` dan `SENANDUNG_ACCESS_PASSWORD` dengan nama pengguna dan kata sandi acak unik sepanjang 24–256 karakter. `JAMENDO_CLIENT_ID` bersifat opsional. Simpan ketiga pengaturan sebagai variabel server pada host.
+Gunakan Node.js 24 dan npm. Jalankan `npm ci --ignore-scripts`, buat file lokal `.env.local`, lalu isi `SENANDUNG_ACCESS_USER` dan `SENANDUNG_ACCESS_PASSWORD` dengan nama pengguna dan kata sandi acak unik sepanjang 24–256 karakter. Pada host, simpan kedua nilai sebagai variabel server. Gunakan `/login` untuk masuk.
 
 Jalankan `npm run dev` dan buka http://127.0.0.1:3000. Untuk produksi, jalankan `npm run build` dan `npm start` di belakang HTTPS. Untuk Vercel pilih Next.js, Node 24, dan Build Command `npm run build` agar seed SQLite berjalan sebelum kompilasi. Halaman dan API memerlukan login pribadi. Hapus data browser hanya jika siap kehilangan koleksi pada perangkat tersebut.
 
 ## Data dan atribusi
 
-Seed membangun database katalog lokal dari manifest kosong. Pencarian, chart, sampul dan audio dimuat dari layanan sumber. Batas permintaan berlaku per proses. Halaman Kredit memuat atribusi provider, font, dan ikon. Lisensi font tersedia di `licenses/Inter-OFL.txt`.
+Katalog pencarian membaca metadata dari `data/indonesian-releases.json`. Audio bersumber dari rilis Yes No Wave Music untuk pemutaran nonkomersial. Saat pengguna memilih cuplikan atau video, browser memuat pemutar resmi penyedia. Koleksi pribadi dan playlist tersimpan di browser. Halaman Kredit memuat atribusi penyedia, font, dan ikon. Lisensi font tersedia di `licenses/Inter-OFL.txt`.

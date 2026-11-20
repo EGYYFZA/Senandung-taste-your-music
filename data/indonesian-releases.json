@@ -1,0 +1,149 @@
+[
+    {
+        "code":  "yesno122",
+        "artist":  "Mother Bank",
+        "album":  "Suara Ibu Peduli",
+        "released":  "2026-10-10",
+        "cover":  "https://yesnowave.com/wp-content/uploads/Mother-Bank-Suara-Ibu-Peduli.png",
+        "tracks":  [
+                       {
+                           "file":  "01 Perempuan Mangrove.mp3",
+                           "title":  "Perempuan Mangrove",
+                           "seconds":  374
+                       },
+                       {
+                           "file":  "02 Gapoktanhut Wukirsari.mp3",
+                           "title":  "Gapoktanhut Wukirsari",
+                           "seconds":  284
+                       },
+                       {
+                           "file":  "03 Kenduri Suara Ibu Indonesia.mp3",
+                           "title":  "Keduri Suara Ibu Indonesia",
+                           "seconds":  244
+                       },
+                       {
+                           "file":  "04 Badudingpak.mp3",
+                           "title":  "Badudingpak",
+                           "seconds":  264
+                       },
+                       {
+                           "file":  "05 Suara Ibu Peduli.mp3",
+                           "title":  "Suara Ibu Peduli",
+                           "seconds":  167
+                       }
+                   ]
+    },
+    {
+        "code":  "yesno118",
+        "artist":  "Raja Kirik",
+        "album":  "Sengkala",
+        "released":  "2026-02-14",
+        "cover":  "https://yesnowave.com/wp-content/uploads/RAJA-KIRIK-SENGKALA.jpg",
+        "tracks":  [
+                       {
+                           "file":  "01. Quantum Dreamers. A prophecy from the Scorched Earth.mp3",
+                           "title":  "Quantum Dreamers. A prophecy from the Scorched Earth",
+                           "seconds":  265
+                       },
+                       {
+                           "file":  "02. Kala Sengkala.mp3",
+                           "title":  "Kala Sengkala",
+                           "seconds":  224
+                       },
+                       {
+                           "file":  "03. Barisan Wong Kalah.mp3",
+                           "title":  "Barisan Wong Kalah",
+                           "seconds":  408
+                       },
+                       {
+                           "file":  "04. Tangis Bumi.mp3",
+                           "title":  "Tangis Bumi",
+                           "seconds":  258
+                       },
+                       {
+                           "file":  "05. Getih Pambrontak.mp3",
+                           "title":  "Getih Pambrontak",
+                           "seconds":  357
+                       },
+                       {
+                           "file":  "06. The Phantom of Kris.mp3",
+                           "title":  "The Phantom of Kris",
+                           "seconds":  211
+                       },
+                       {
+                           "file":  "07. Legal - Mass Murder.mp3",
+                           "title":  "Legal-Mass Murder",
+                           "seconds":  348
+                       },
+                       {
+                           "file":  "08. Cultuurstelsel.mp3",
+                           "title":  "Cultuurstelsel",
+                           "seconds":  380
+                       },
+                       {
+                           "file":  "09, Gunung. Into the Fold of Southern Mountain.mp3",
+                           "title":  "Gunung. Into the Fold of Southern Mountain",
+                           "seconds":  381
+                       },
+                       {
+                           "file":  "10. Stone Crusher.mp3",
+                           "title":  "Stone Crusher",
+                           "seconds":  300
+                       },
+                       {
+                           "file":  "11. Bubrah. Garden of Ash.mp3",
+                           "title":  "Bubrah. Garden of Ash",
+                           "seconds":  344
+                       },
+                       {
+                           "file":  "12. Digdaya.mp3",
+                           "title":  "Digdaya",
+                           "seconds":  105
+                       }
+                   ]
+    },
+    {
+        "code":  "yesno120",
+        "artist":  "Rani Jambak",
+        "album":  "LARA(NGAN)",
+        "released":  "2025-08-10",
+        "cover":  "https://yesnowave.com/wp-content/uploads/Rani_Jambak_-_Larangan.jpg",
+        "tracks":  [
+                       {
+                           "file":  "1. Pedogenesis.mp3",
+                           "title":  "Pedogenesis",
+                           "seconds":  304
+                       },
+                       {
+                           "file":  "2. Mikroseisme.mp3",
+                           "title":  "Mikroseisme",
+                           "seconds":  299
+                       },
+                       {
+                           "file":  "3. Regang.mp3",
+                           "title":  "Regang",
+                           "seconds":  488
+                       },
+                       {
+                           "file":  "4. Saseso.mp3",
+                           "title":  "Saseso",
+                           "seconds":  570
+                       },
+                       {
+                           "file":  "5. Abih Raso.mp3",
+                           "title":  "Abih Raso",
+                           "seconds":  216
+                       },
+                       {
+                           "file":  "6. Kun.mp3",
+                           "title":  "Kun",
+                           "seconds":  176
+                       },
+                       {
+                           "file":  "7. Utopia.mp3",
+                           "title":  "Utopia",
+                           "seconds":  274
+                       }
+                   ]
+    }
+]

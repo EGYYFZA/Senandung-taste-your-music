@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
-  turbopack: { root: process.cwd() },
+  // Keep repository instructions under version control without dev-server rewrites.
   agentRules: false,
   poweredByHeader: false,
   async headers() {

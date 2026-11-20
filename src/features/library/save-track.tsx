@@ -2,7 +2,7 @@
 import { CirclePlus } from "lucide-react";
 import { useRef, useState } from "react";
 import type { Track } from "@/features/catalog/types";
-import { emptyLibrary, readLibrary, writeLibrary } from "./library-storage";
+import { emptyLibrary, readLibrary, withSavedTrack, writeLibrary } from "./library-storage";
 
 export function SaveTrack({ track }: { track: Track }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -45,23 +45,12 @@ export function SaveTrack({ track }: { track: Track }) {
             const name = String(new FormData(event.currentTarget).get("name") ?? "").trim();
             try {
               const current = readLibrary(localStorage);
-              const tracks = [
-                ...(current.tracks ?? []).filter((item) => item.id !== track.id),
-                track,
-              ];
-              let playlists = current.playlists;
-              if (target === "new")
-                playlists = [...playlists, { id: crypto.randomUUID(), name, trackIds: [track.id] }];
-              else if (target) {
-                if (!playlists.some((playlist) => playlist.id === target))
-                  throw new Error("Playlist sudah dihapus. Tutup dialog dan pilih kembali.");
-                playlists = playlists.map((playlist) =>
-                  playlist.id === target
-                    ? { ...playlist, trackIds: [...new Set([...playlist.trackIds, track.id])] }
-                    : playlist,
-                );
+              let playlistId = target;
+              if (target === "new") {
+                playlistId = crypto.randomUUID();
+                current.playlists.push({ id: playlistId, name, trackIds: [] });
               }
-              writeLibrary(localStorage, { ...current, tracks, playlists });
+              writeLibrary(localStorage, withSavedTrack(current, track, playlistId));
               setNotice(target ? "Ditambahkan ke playlist" : "Tersimpan di Koleksi");
               dialog.current?.close();
             } catch (cause) {

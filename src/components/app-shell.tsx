@@ -1,6 +1,6 @@
 "use client";
 
-import { AudioLines, ChevronRight, House, Library, Search } from "lucide-react";
+import { AudioLines, ChevronRight, House, Library, LogOut, Search } from "lucide-react";
 import Form from "next/form";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -76,10 +76,17 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link href="/credits" className="text-link">
             Kredit & sumber
           </Link>
-          <span className="user-avatar">
-            <span aria-hidden="true">S</span>
-            <span className="sr-only">Ruang pribadi</span>
-          </span>
+          <form action="/login" method="post">
+            <input type="hidden" name="intent" value="logout" />
+            <button
+              type="submit"
+              className="control-button"
+              aria-label="Keluar dari Senandung"
+              title="Keluar"
+            >
+              <LogOut size={19} aria-hidden="true" />
+            </button>
+          </form>
         </div>
       </header>
       <aside className="sidebar">

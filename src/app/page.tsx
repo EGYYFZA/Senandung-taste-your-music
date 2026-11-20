@@ -1,31 +1,37 @@
 import Link from "next/link";
-import { IndonesiaDiscovery } from "@/features/catalog/indonesia-discovery";
+import { Artwork } from "@/components/ui/artwork";
+import { IndonesiaRising } from "@/features/catalog/indonesia-rising";
+import { searchIndonesianTracks } from "@/features/catalog/indonesian-releases";
 import { MusicCatalog } from "@/features/catalog/music-catalog";
+import { PlayButton } from "@/features/catalog/play-button";
 
 export default function HomePage() {
+  const album = searchIndonesianTracks("").filter((t) => t.providerId?.startsWith("yesno122-"));
+  const featured = album[0];
   return (
     <>
-      <nav className="mood-links" aria-label="Pilih suasana">
-        <Link className="mood-chip is-selected" href="/" aria-current="page">
-          Untukmu
-        </Link>
-        {["Indonesia", "Dangdut", "Pop Indonesia", "Jazz", "Electronic"].map((genre) => (
-          <Link className="mood-chip" key={genre} href={`/search?q=${genre}`}>
-            {genre}
-          </Link>
-        ))}
-      </nav>
-      <div className="page-heading home-heading">
-        <div>
-          <h1>Musik untuk harimu.</h1>
-          <p className="page-description">Lagu, suasana, dan playlist dalam satu ruang dengar.</p>
-        </div>
-      </div>
-      <MusicCatalog query="Indonesia" layout="shelf" />
-      <IndonesiaDiscovery />
-      <Link className="text-link" href="/library">
-        Buka koleksi dan playlist kamu
-      </Link>
+      {featured && (
+        <section className="release-hero" aria-labelledby="featured-release">
+          <div className="hero-sleeve">
+            <Artwork tone={featured.tone} title={featured.mood} imageUrl={featured.artworkUrl} />
+          </div>
+          <div className="hero-info">
+            <p className="hero-kicker">Album sorotan</p>
+            <h1 id="featured-release">{featured.mood}</h1>
+            <p>
+              {featured.artist} · {album.length} lagu
+            </p>
+            <div className="hero-actions">
+              <PlayButton tracks={album} label="Putar album" />
+              <Link className="text-link" href="/library">
+                Koleksi saya
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+      <MusicCatalog layout="shelf" />
+      <IndonesiaRising />
     </>
   );
 }

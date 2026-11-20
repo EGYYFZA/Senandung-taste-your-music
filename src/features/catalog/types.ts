@@ -9,7 +9,7 @@ export type Track = {
   mood: string;
   tone: ArtworkTone;
   youtubeId?: string;
-  provider?: "audius" | "jamendo";
+  provider?: "audius" | "jamendo" | "yesnowave";
   providerId?: string;
   licenseUrl?: string;
   artworkUrl: string;

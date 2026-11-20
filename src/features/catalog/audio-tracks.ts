@@ -1,17 +1,25 @@
 import type { Track } from "./types";
 
-export type AudioProvider = "audius" | "jamendo";
+export type AudioProvider = NonNullable<Track["provider"]>;
 export const providerName = (track: Track) =>
-  track.provider === "audius" ? "Audius" : track.provider === "jamendo" ? "Jamendo" : "YouTube";
+  track.provider === "yesnowave"
+    ? "Yes No Wave Music"
+    : track.provider === "audius"
+      ? "Audius"
+      : track.provider === "jamendo"
+        ? "Jamendo"
+        : "YouTube";
 export const libraryTrackId = (track: Track) => track.youtubeId ?? track.id;
 export const record = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 export function validProviderId(provider: unknown, id: unknown): id is string {
   return (
     typeof id === "string" &&
-    (provider === "audius"
-      ? /^[a-zA-Z0-9]{1,32}$/.test(id)
-      : provider === "jamendo" && /^[0-9]{1,20}$/.test(id))
+    (provider === "yesnowave"
+      ? /^yesno[0-9]{3}-[1-9][0-9]?$/.test(id)
+      : provider === "audius"
+        ? /^[a-zA-Z0-9]{1,32}$/.test(id)
+        : provider === "jamendo" && /^[0-9]{1,20}$/.test(id))
   );
 }
 export function publicHttps(value: unknown): string | null {
@@ -55,7 +63,11 @@ export function parseAudioTrack(value: unknown): Track | null {
     !sourceUrl ||
     artworkUrl === null ||
     !new URL(sourceUrl).hostname.match(
-      value.provider === "audius" ? /^(www\.)?audius\.co$/ : /^(www\.)?jamendo\.com$/,
+      value.provider === "yesnowave"
+        ? /^yesnowave\.com$/
+        : value.provider === "audius"
+          ? /^(www\.)?audius\.co$/
+          : /^(www\.)?jamendo\.com$/,
     )
   )
     return null;

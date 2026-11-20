@@ -1,9 +1,8 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Form from "next/form";
-import { activeProviders } from "@/features/catalog/music.server";
 import { MusicCatalog } from "@/features/catalog/music-catalog";
 
-export const metadata: Metadata = { title: "Cari musik" };
+export const metadata: Metadata = { title: "Cari musik Indonesia" };
 export default async function SearchPage({
   searchParams,
 }: {
@@ -11,22 +10,16 @@ export default async function SearchPage({
 }) {
   const params = await searchParams;
   const query = typeof params.q === "string" ? params.q.trim() : "";
-  const provider = typeof params.provider === "string" ? params.provider : "all";
-  const providers = activeProviders();
   const invalid =
     Array.isArray(params.q) ||
-    Array.isArray(params.provider) ||
     query.length > 100 ||
-    !["all", ...providers].includes(provider);
+    (params.provider !== undefined && params.provider !== "all" && params.provider !== "yesnowave");
   return (
     <>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">TEMUKAN LAGUMU</p>
-          <h1>Cari nada yang pas.</h1>
-          <p className="page-description">
-            Jelajahi lagu dan artis dari {providers.length === 2 ? "Audius dan Jamendo" : "Audius"}.
-          </p>
+          <h1>Cari musik Indonesia.</h1>
+          <p className="page-description">Cari judul atau musisi dalam katalog audio Indonesia.</p>
         </div>
       </div>
       <search aria-label="Pencarian katalog">
@@ -40,24 +33,12 @@ export default async function SearchPage({
               type="search"
               maxLength={100}
               defaultValue={query.slice(0, 100)}
-              placeholder="Cari judul, artis, atau genre"
+              placeholder="Cari judul atau nama musisi"
             />
             <button className="button button--primary" type="submit">
               Cari
             </button>
           </div>
-          {providers.length === 2 ? (
-            <>
-              <label htmlFor="search-provider">Sumber musik</label>
-              <select id="search-provider" name="provider" key={provider} defaultValue={provider}>
-                <option value="all">Semua sumber</option>
-                <option value="audius">Audius</option>
-                <option value="jamendo">Jamendo</option>
-              </select>
-            </>
-          ) : (
-            <input type="hidden" name="provider" value="all" />
-          )}
         </Form>
       </search>
       {invalid ? (
@@ -65,7 +46,7 @@ export default async function SearchPage({
           Gunakan satu pencarian maksimal 100 karakter dan sumber yang tersedia.
         </p>
       ) : (
-        <MusicCatalog key={`${query}:${provider}`} query={query} provider={provider} />
+        <MusicCatalog key={query} query={query} />
       )}
     </>
   );

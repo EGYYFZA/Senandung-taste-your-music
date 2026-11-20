@@ -1,5 +1,6 @@
 import { parseAudioTrack } from "@/features/catalog/audio-tracks";
 import type { Track } from "@/features/catalog/types";
+import { youtubeTrack } from "./youtube-bookmarks";
 export const LIBRARY_KEY = "senandung.library.v1";
 export const LIBRARY_CHANGED = "senandung-library-changed";
 
@@ -14,6 +15,27 @@ export function emptyLibrary(): LocalLibrary {
   return { version: 1, likes: [], playlists: [] };
 }
 
+export function withSavedTrack(
+  library: LocalLibrary,
+  track: Track,
+  playlistId?: string,
+): LocalLibrary {
+  if (playlistId && !library.playlists.some((p) => p.id === playlistId))
+    throw new Error("Playlist sudah dihapus. Pilih playlist kembali.");
+  const tracks = library.tracks ?? [];
+  return {
+    ...library,
+    tracks: tracks.some((t) => t.id === track.id)
+      ? tracks.map((t) => (t.id === track.id ? track : t))
+      : [...tracks, track],
+    playlists: library.playlists.map((p) =>
+      p.id === playlistId && !p.trackIds.includes(track.id)
+        ? { ...p, trackIds: [...p.trackIds, track.id] }
+        : p,
+    ),
+  };
+}
+
 function record(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -25,7 +47,9 @@ function videoIds(value: unknown): string[] {
     value.some(
       (id) =>
         typeof id !== "string" ||
-        !/^(?:[A-Za-z0-9_-]{11}|audius:[a-zA-Z0-9]{1,32}|jamendo:[0-9]{1,20})$/.test(id),
+        !/^(?:[A-Za-z0-9_-]{11}|audius:[a-zA-Z0-9]{1,32}|jamendo:[0-9]{1,20}|yesnowave:yesno[0-9]{3}-[1-9][0-9]?)$/.test(
+          id,
+        ),
     ) ||
     new Set(value).size !== value.length
   )
@@ -74,7 +98,13 @@ export function parseLibrary(raw: string | null): LocalLibrary {
   if (value.tracks !== undefined) {
     if (!Array.isArray(value.tracks) || value.tracks.length > 500)
       throw new Error("Maksimal 500 lagu tersimpan.");
-    const tracks = value.tracks.map(parseAudioTrack);
+    const tracks = value.tracks.map((item: unknown) =>
+      record(item) && item.youtubeId !== undefined
+        ? item.provider === undefined && item.id === item.youtubeId
+          ? youtubeTrack(item.youtubeId, item.title, item.artist)
+          : null
+        : parseAudioTrack(item),
+    );
     if (
       tracks.some((track) => track === null) ||
       new Set(tracks.map((track) => track?.id)).size !== tracks.length

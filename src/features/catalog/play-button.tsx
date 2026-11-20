@@ -8,20 +8,22 @@ export function PlayButton({
   tracks,
   label = "Putar",
   compact = false,
+  startIndex = 0,
 }: {
   tracks: Track[];
   label?: string;
   compact?: boolean;
+  startIndex?: number;
 }) {
   const player = usePlayer();
-  const playing = player.status === "playing" && tracks[0]?.id === player.currentTrack?.id;
+  const playing = player.status === "playing" && tracks[startIndex]?.id === player.currentTrack?.id;
   return (
     <button
       type="button"
       className={compact ? "card-arrow" : "button button--primary"}
       disabled={tracks.length === 0}
       aria-label={playing ? `Jeda ${label}` : label}
-      onClick={() => (playing ? player.togglePlayback() : player.playTracks(tracks))}
+      onClick={() => (playing ? player.togglePlayback() : player.playTracks(tracks, startIndex))}
     >
       {playing ? (
         <Pause size={21} aria-hidden="true" fill="currentColor" />

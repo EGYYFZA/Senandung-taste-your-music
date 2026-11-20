@@ -514,13 +514,15 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         <section className="youtube-panel" aria-label="Video YouTube yang sedang dipilih">
           <div className="youtube-panel-heading">
             <strong>{currentTrack.title}</strong>
-            <a
-              href={`https://www.youtube.com/watch?v=${currentTrack.youtubeId}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Buka YouTube <ExternalLink size={14} aria-hidden="true" />
-            </a>
+            {error && (
+              <a
+                href={`https://www.youtube.com/watch?v=${currentTrack.youtubeId}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Buka YouTube <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            )}
           </div>
           <YouTube
             key={embedAttempt}

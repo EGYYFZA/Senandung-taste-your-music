@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
+import { Artwork } from "@/components/ui/artwork";
 import { libraryTrackId } from "@/features/catalog/audio-tracks";
 import { PlayButton } from "@/features/catalog/play-button";
 import type { Track } from "@/features/catalog/types";
@@ -12,6 +13,19 @@ import {
   readLibrary,
   writeLibrary,
 } from "./library-storage";
+import { YoutubeImport } from "./youtube-import";
+
+function SongDetails({ track }: { track: Track }) {
+  return (
+    <div className="personal-track-name song-details">
+      <Artwork compact title={track.title} tone={track.tone} imageUrl={track.artworkUrl} />
+      <span>
+        <strong>{track.title}</strong>
+        <small>{track.artist}</small>
+      </span>
+    </div>
+  );
+}
 
 export function PersonalLibrary({ tracks: curatedTracks }: { tracks: Track[] }) {
   const [library, setLibrary] = useState<LocalLibrary>(emptyLibrary);
@@ -86,16 +100,25 @@ export function PersonalLibrary({ tracks: curatedTracks }: { tracks: Track[] }) 
   }
 
   function listTracks(ids: string[], remove: (id: string) => void) {
+    const queue = ids.flatMap((id) => tracks.find((item) => libraryTrackId(item) === id) ?? []);
     return (
       <ol className="personal-tracks">
         {ids.map((id) => {
           const track = tracks.find((item) => libraryTrackId(item) === id);
           return (
             <li key={id}>
-              <span className="personal-track-name">
-                {track?.title ?? `Lagu belum tersedia di katalog (${id})`}
-              </span>
-              {track && <PlayButton tracks={[track]} label={`Putar ${track.title}`} />}
+              {track ? (
+                <SongDetails track={track} />
+              ) : (
+                <span className="personal-track-name">{`Lagu belum tersedia di katalog (${id})`}</span>
+              )}
+              {track && (
+                <PlayButton
+                  tracks={queue}
+                  startIndex={queue.indexOf(track)}
+                  label={`Putar ${track.title}`}
+                />
+              )}
               <button
                 className="button button--ghost"
                 type="button"
@@ -169,6 +192,7 @@ export function PersonalLibrary({ tracks: curatedTracks }: { tracks: Track[] }) 
       </section>
       <section className="design-panel" aria-labelledby="saved-heading">
         <h3 id="saved-heading">Lagu tersimpan</h3>
+        <YoutubeImport disabled={!ready} />
         {!tracks.length && (
           <p className="preview-note">
             Cari lagu, lalu tekan + untuk menyimpannya atau menambahkannya ke playlist.
@@ -177,7 +201,7 @@ export function PersonalLibrary({ tracks: curatedTracks }: { tracks: Track[] }) 
         <ul className="personal-tracks">
           {tracks.map((track) => (
             <li key={libraryTrackId(track)}>
-              <span className="personal-track-name">{track.title}</span>
+              <SongDetails track={track} />
               <PlayButton tracks={[track]} label={`Putar simpanan ${track.title}`} />
               <button
                 type="button"
@@ -199,7 +223,7 @@ export function PersonalLibrary({ tracks: curatedTracks }: { tracks: Track[] }) 
               >
                 {library.likes.includes(libraryTrackId(track)) ? "Disukai" : "Sukai"}
               </button>
-              {track.provider && (
+              {library.tracks?.some((item) => item.id === track.id) && (
                 <button
                   type="button"
                   className="button button--ghost"
@@ -223,6 +247,7 @@ export function PersonalLibrary({ tracks: curatedTracks }: { tracks: Track[] }) 
           key={playlist.id}
         >
           <h3>{playlist.name}</h3>
+          <YoutubeImport playlistId={playlist.id} disabled={!ready} />
           <PlayButton
             tracks={playlist.trackIds.flatMap(
               (id) => tracks.find((track) => libraryTrackId(track) === id) ?? [],

@@ -44,7 +44,8 @@ export function MusicCatalog({
         setTracks((previous) => [
           ...new Map([...previous, ...parsed].map((track) => [track.id, track])).values(),
         ]);
-        const validProvider = (p: unknown): p is AudioProvider => p === "audius" || p === "jamendo";
+        const validProvider = (p: unknown): p is AudioProvider =>
+          p === "yesnowave" || p === "audius" || p === "jamendo";
         const nextProviders = body.more.filter(validProvider);
         setMore((previous) => [...new Set([...previous, ...nextProviders])]);
         setRetryProviders(body.failed.filter(validProvider).join(","));
@@ -66,7 +67,7 @@ export function MusicCatalog({
       <div className="section-heading">
         <h2>
           {layout === "shelf"
-            ? `Hasil pencarian “${query}”`
+            ? `Rilisan independen Indonesia`
             : query
               ? "Hasil pencarian"
               : "Mulai mendengarkan"}
